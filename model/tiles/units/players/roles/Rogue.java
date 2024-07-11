@@ -24,7 +24,7 @@ public class Rogue extends Player {
 
     public void levelUP()
     {
-        super.levelUP();
+        super.levelUp();
         this.energy.setCurrent(100);
         this.setAttackPoints(this.getAttackPoints() + this.getLevel() * 3);
     }
@@ -33,7 +33,7 @@ public class Rogue extends Player {
     {
         callBack.onMessageRecieved("Rogue " + this.getName() + " Just activated special ability Fan Of Knives!");
         if(this.energy.getCurrent() >= this.abilityCost) {
-            List<Enemy> enemiesInRange = enemies.stream().filter(e -> this.getP().Distance(e.getP()) < 2).toList();
+            List<Enemy> enemiesInRange = enemies.stream().filter(e -> this.getPosition().range(e.getPosition()) < 2).toList();
             if (enemiesInRange.size() == 0)
                 callBack.onMessageRecieved("No enemies in Fan of Knives range ");
             else
@@ -52,7 +52,7 @@ public class Rogue extends Player {
     public void move(Tile t)
     {
         this.interact(t);
-        this.energy.increaseBarPoints(10);
+        this.energy.increaseCurrentHealth(10);
     }
     public String description()
     {

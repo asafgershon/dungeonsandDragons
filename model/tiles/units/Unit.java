@@ -78,5 +78,22 @@ public abstract class Unit extends Tile {
                 "Health Points : (" + this.health.toString() + ")";
     }
 
+    public Health getHealth(){
+        return health;
+    }
+
+    public int getDefense(){
+        return defense;
+    }
+    public void setDefense(int defense){
+        this.defense = defense;
+    }
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attackPoints) {
+        this.attack = attackPoints;
+    }
 
 }

@@ -25,7 +25,7 @@ public class Mage extends Player {
     public Mage(String name ,  int attackPoints, int defensePoints, int health, int x, int y ,
                 int manaPool , int spellPower , int abilityCost , int hitsCount , int abilityRange)
     {
-        super(name,attackPoints,defensePoints,new Health(health),new Position(x,y));
+        super(name,attackPoints,defensePoints,health, new Position(x,y));
         this.mana = new Health(manaPool);
         this.spellPower = spellPower;
         this.abilityRange = abilityRange;
@@ -36,9 +36,9 @@ public class Mage extends Player {
 
     public void levelUP()
     {
-        super.levelUP();
-        this.mana.setPool(mana.getPool() + this.getLevel()*25);
-        this.mana.increaseBarPoints(this.mana.getPool()/4);
+        super.levelUp();
+        this.mana.tPool(mana.getPool() + this.getLevel()*25);
+        this.mana.increaseCurrent(this.mana.getPool()/4);
         this.spellPower = this.spellPower + this.getLevel() * 10;
     }
 
@@ -48,7 +48,7 @@ public class Mage extends Player {
         if(this.mana.getCurrent() >= this.abilityCost)
         {
             List<Enemy> enemiesInRange = new LinkedList<Enemy>();
-            enemiesInRange = enemies.stream().filter(e -> this.getP().Distance(e.getP()) <= this.abilityRange).collect(Collectors.toList());
+            enemiesInRange = enemies.stream().filter(e -> this.getPosition().range(e.getPosition()) <= this.abilityRange).collect(Collectors.toList());
             if (enemiesInRange.size() == 0)
                 callBack.onMessageRecieved("No enemies in Blizzard Range");
             else
@@ -57,7 +57,7 @@ public class Mage extends Player {
                 for (int i = 1; i <= this.hitsCount && enemiesInRange.size() > 0; i++) {
                     int index = (new Random()).nextInt(0, enemiesInRange.size());
                     Enemy randomEnemy = enemiesInRange.get(index);
-                    if (!randomEnemy.isDead()) {
+                    if (randomEnemy.alive()) {
                         this.attackWithAbility(randomEnemy, this.spellPower);
                     }
                     else
@@ -72,7 +72,7 @@ public class Mage extends Player {
     public void move(Tile t)
     {
         this.interact(t);
-        this.mana.increaseBarPoints(this.getLevel());
+        this.mana.increaseCurrentHealth(this.getLevel());
     }
     public String description()
     {

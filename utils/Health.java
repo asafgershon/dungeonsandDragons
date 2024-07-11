@@ -19,6 +19,12 @@ public class Health {
     public int getCurrent() {
         return current;
     }
+    public void setCapacity(int pool) {
+        this.capacity = pool;
+    }
+    public int getCapacity() {
+        return capacity;
+    }
 
     public void increaseMax(int healthGain) {
         capacity += healthGain;
@@ -26,5 +32,20 @@ public class Health {
 
     public void heal() {
         current = capacity;
+    }
+
+    public void increaseCurrentHealth(int amount) {
+        if(current + amount <= capacity) {
+            current += amount;
+        }
+        else{
+            current = capacity;
+        }
+    }
+    public void decreaseCurrentHealth(int amount) {
+        if(current - amount < 0)
+            current = 0;
+        else
+            current -= amount;
     }
 }

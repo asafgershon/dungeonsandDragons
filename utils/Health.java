@@ -20,11 +20,24 @@ public class Health {
         return current;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
     public void increaseMax(int healthGain) {
         capacity += healthGain;
     }
 
     public void heal() {
         current = capacity;
+    }
+
+    public void increaseCurrentHealth(int amount) {
+        if(current + amount <= capacity) {
+            current += amount;
+        }
+        else{
+            current = capacity;
+        }
     }
 }

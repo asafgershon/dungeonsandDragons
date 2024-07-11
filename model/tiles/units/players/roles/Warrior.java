@@ -19,7 +19,7 @@ public class Warrior extends Player {
     public Warrior(String name ,  int attackPoints, int defensePoints, int health, int x, int y ,
                    int abilityCooldown)
     {
-        super(name,attackPoints,defensePoints,new Health(health),new Position(x,y));
+        super(name,health,attackPoints,defensePoints,new Position(x,y));
         this.abilityCooldown = abilityCooldown;
         this.remainingCooldown = 0;
         callBack = new MessegeCallBack();
@@ -27,9 +27,9 @@ public class Warrior extends Player {
 
     public void levelUP()
     {
-        super.levelUP();
+        super.levelUp();
         this.remainingCooldown = 0;
-        this.getHealth().setPool(this.getHealth().getPool() + this.getLevel()*5);
+        this.getHealth().setPool(this.getHealth().getPositionositionool() + this.getLevel()*5);
         this.setAttackPoints(this.getAttackPoints() + 2 * this.getLevel());
         this.setDefensePoints(this.getDefensePoints() + this.getLevel());
     }
@@ -38,15 +38,15 @@ public class Warrior extends Player {
     {
         callBack.onMessageRecieved("Warrior " + this.getName() + " Just activated special ability Avengers Shield!");
         if(this.remainingCooldown == 0) {
-            List<Enemy> enemiesInRange = enemies.stream().filter(e -> this.getP().Distance(e.getP()) < 3).toList();
+            List<Enemy> enemiesInRange = enemies.stream().filter(e -> this.getPosition().range(e.getPosition()) < 3).toList();
             if (enemiesInRange.size() == 0)
                 callBack.onMessageRecieved("No enemies in Avengers shield range ");
             else
             {
                 this.remainingCooldown = this.abilityCooldown;
                 Enemy randomEnemy = enemiesInRange.get((new Random()).nextInt(0, enemiesInRange.size()));
-                this.attackWithAbility(randomEnemy, (int) (this.getHealth().getPool() * 0.1));
-                this.getHealth().increaseBarPoints(10 * this.getDefensePoints());
+                this.attackWithAbility(randomEnemy, (int) (this.getHealth().getCapacity() * 0.1));
+                this.getHealth().increaseCurrentHealth(10 * this.getDefense());
             }
         }
         else

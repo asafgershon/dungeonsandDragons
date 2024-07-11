@@ -6,6 +6,7 @@ import utils.Position;
 import utils.Health;
 import model.tiles.Tile;
 import model.tiles.units.Unit;
+import utils.callbacks.MessegeCallBack;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,13 +15,13 @@ import java.util.Random;
 public class Monster extends Enemy {
 
     private int vision;
-    private MessageCallback callBack;
+    private MessegeCallBack callBack;
 
     public Monster(int expRaise, String name, int attackPoints, int defensePoints, int health, int x, int y, char symbol, int vision)
     {
-        super(expRaise, name,attackPoints,defensePoints,new Health(health),new Position(x,y),symbol);
+        super(symbol, name,health,attackPoints,defensePoints,expRaise);
         this.vision = vision;
-        //callBack = new MessegeCallBack();
+        callBack = new MessegeCallBack();
     }
 
     public void visit (Player p)
@@ -43,6 +44,7 @@ public class Monster extends Enemy {
     public void setVision(int vision) {
         this.vision = vision;
     }
+
     public void onDeath(Unit killer,boolean fromAbility)
     {
         killer.gainEXP(this.getExpRaise());
@@ -67,9 +69,9 @@ public class Monster extends Enemy {
         actions.add("d");
         actions.add("s");
 
-        if (this.getP().Distance(p.getP()) < this.vision) {
-            int dx = this.getP().getX() - p.getP().getX();
-            int dy = this.getP().getY() - p.getP().getY();
+        if (this.getPosition().range(p.getPosition()) < this.vision) {
+            int dx = this.getPosition().getX() - p.getPosition().getX();
+            int dy = this.getPosition().getY() - p.getPosition().getY();
             if (Math.abs(dx) > Math.abs(dy)) {
                 if (dx > 0)
                     return actions.get(0);
@@ -88,6 +90,7 @@ public class Monster extends Enemy {
             return (actions.get(randomIndex));
         }
     }
+
     @Override
     public String description() {
         return super.description() + " exp raise : " + this.getExpRaise() + " vision = " + vision;

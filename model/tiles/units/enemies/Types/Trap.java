@@ -64,7 +64,7 @@ public class Trap extends Enemy {
             ticksCount = 0;
         else
             ticksCount ++;
-        if(this.getP().Distance(p.getP()) < 2)
+        if(this.getPosition().range(p.getPosition()) < 2)
             this.battle(p);
     }
     public String toString()

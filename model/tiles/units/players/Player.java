@@ -2,8 +2,11 @@ package model.tiles.units.players;
 
 import model.tiles.units.Unit;
 import model.tiles.units.enemies.Enemy;
+import utils.callbacks.MessegeCallBack;
 
-public class Player extends Unit {
+import java.util.List;
+
+public abstract class Player extends Unit {
     public static final char PLAYER_TILE = '@';
     protected static final int LEVEL_REQUIREMENT = 50;
     protected static final int HEALTH_GAIN = 10;
@@ -12,6 +15,8 @@ public class Player extends Unit {
 
     protected int level;
     protected int experience;
+    private MessegeCallBack callBack;
+
 
     public Player(String name, int hitPoints, int attack, int defense) {
         super(PLAYER_TILE, name, hitPoints, attack, defense);
@@ -50,6 +55,20 @@ public class Player extends Unit {
         return ATTACK_GAIN * level;
     }
 
+    public abstract void activateAbility(List<Enemy> enemies);
+
+    public abstract void info();
+
+    public String getName() {
+        return name;
+    }
+
+    public String description() {
+        return " name: " + this.name + "  AttackPoints: " +
+                this.attack + "  DefensePoints: " + this.defense + "  " +
+                "Health Points : (" + this.health.toString() + ")";
+    }
+
     protected int defenseGain(){
         return DEFENSE_GAIN * level;
     }
@@ -67,12 +86,41 @@ public class Player extends Unit {
         battle(e);
         if(!e.alive()){
             addExperience(e.experienceValue());
-            e.onDeath();
+            if(!e.alive())
+                e.onDeath(this,false);
         }
     }
 
-    @Override
-    public void onDeath() {
-        //TODO: Implement onDeath
+    public void onDeath(Unit killer,boolean fromAbility) {
+        this.setSymbol('X');
+        killer.swapPosition(this);
+        callBack.onMessageRecieved("Player " + this.getName() + " died.");
+    }
+
+    public void gainEXP(int exp)
+    {
+        callBack.onMessageRecieved("Player " + this.getName() + " just Gained " + exp + " EXP");
+        while(exp > 0)
+        {
+            if(this.getExp() + exp >= this.level * 50)
+            {
+                exp = exp - (this.level * 50 - this.getExp());
+                levelUp();
+            }
+            else
+            {
+                this.setExp(this.getExp()+exp);
+                exp = 0;
+            }
+        }
+        this.info();
+    }
+
+    public int getExp() {
+        return experience;
+    }
+
+    public void setExp(int exp) {
+        this.experience = exp;
     }
 }

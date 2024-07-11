@@ -19,7 +19,9 @@ public class Health {
     public int getCurrent() {
         return current;
     }
-
+    public void setCapacity(int pool) {
+        this.capacity = pool;
+    }
     public int getCapacity() {
         return capacity;
     }
@@ -39,5 +41,11 @@ public class Health {
         else{
             current = capacity;
         }
+    }
+    public void decreaseCurrentHealth(int amount) {
+        if(current - amount < 0)
+            current = 0;
+        else
+            current -= amount;
     }
 }

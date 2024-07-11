@@ -60,13 +60,13 @@ public abstract class Player extends Unit {
 
     public void attackWithAbility(Enemy e,  int attackPoints)
     {
-        if(attackPoints > e.getDefensePoints())
+        if(attackPoints > e.getDefense())
         {
-            e.getHealth().decreasBarPoints(attackPoints - e.getDefensePoints());
+            e.getHealth().decreaseCurrentHealth(attackPoints - e.getDefense());
             callBack.onMessageRecieved(this.getName() + " attacked " + e.getName() +
-                    " with " + (attackPoints - e.getDefensePoints()) + " attack points!");
+                    " with " + (attackPoints - e.getDefense()) + " attack points!");
             e.info();
-            if (e.isDead())
+            if (!e.alive())
                 e.onDeath(this,true);
         }
         else

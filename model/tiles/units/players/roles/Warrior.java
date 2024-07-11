@@ -29,9 +29,9 @@ public class Warrior extends Player {
     {
         super.levelUp();
         this.remainingCooldown = 0;
-        this.getHealth().setPool(this.getHealth().getPositionositionool() + this.getLevel()*5);
-        this.setAttackPoints(this.getAttackPoints() + 2 * this.getLevel());
-        this.setDefensePoints(this.getDefensePoints() + this.getLevel());
+        this.getHealth().setCapacity(this.getHealth().getCapacity() + this.getLevel()*5);
+        this.setAttack(this.getAttack() + 2 * this.getLevel());
+        this.setDefense(this.getDefense() + this.getLevel());
     }
 
     public void activateAbility(List<Enemy> enemies)

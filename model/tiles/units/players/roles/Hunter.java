@@ -20,7 +20,7 @@ public class Hunter extends Player {
     public Hunter(String name ,  int attackPoints, int defensePoints, int hitPoints, int x, int y ,
                   int range)
     {
-        super(name,attackPoints,defensePoints,new Health(health),new Position(x,y));
+        super(name,health, attackPoints,defensePoints,new Position(x,y));
         this.range = range;
         this.arrowsCount = 10;
         this.ticksCount = 0;
@@ -29,10 +29,10 @@ public class Hunter extends Player {
 
     public void levelUP()
     {
-        super.levelUP();
+        super.levelUp();
         this.arrowsCount += this.getLevel()*10;
-        this.setAttackPoints(this.getAttackPoints() + (2*this.getLevel()));
-        this.setDefensePoints(this.getDefensePoints() + this.getLevel());
+        this.setAttack(this.getAttack() + (2*this.getLevel()));
+        this.setDefense(this.getDefense() + this.getLevel());
     }
 
     public void activateAbility(List<Enemy> enemies)
@@ -49,10 +49,10 @@ public class Hunter extends Player {
                 Enemy closest = enemies.get(0);
                 for(Enemy e : enemiesInRange)
                 {
-                    if(this.getP().Distance(e.getP()) < this.getP().Distance(closest.getP()))
+                    if(this.getPosition().range(e.getPosition()) < this.getPosition().range(closest.getPosition()))
                         closest = e;
                 }
-                this.attackWithAbility(closest,this.getAttackPoints());
+                this.attackWithAbility(closest,this.getAttack());
             }
         }
         else

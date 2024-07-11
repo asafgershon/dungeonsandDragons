@@ -55,7 +55,7 @@ public class TileFactory {
                 () -> new Trap(250, "Death Trap", 100, 20, 500, -1, -1, 'D', 1, 10)
 
         );
-        return enemies.stream().collect(Collectors.toMap(s -> s.get().getSymbol(), Function.identity()));s
+        return enemies.stream().collect(Collectors.toMap(s -> s.get().getSymbol(), Function.identity()));
     }
 
     public Player getPlayer(int index)

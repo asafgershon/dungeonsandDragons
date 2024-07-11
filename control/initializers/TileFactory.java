@@ -6,18 +6,16 @@ import model.tiles.Wall;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
 import utils.Position;
-import utils.callbacks.DeathCallback;
-import utils.callbacks.MessageCallback;
 import utils.generators.Generator;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
 public class TileFactory {
     private Player p;
+
     private static final List<Supplier<Player>> playerTypes = Arrays.asList(
             () -> new Player("Player1", 10, 5, 2),
             () -> new Player("Player2", 15, 3, 3),

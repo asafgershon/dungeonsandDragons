@@ -7,8 +7,6 @@ import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
 import utils.Health;
 import utils.Position;
-import utils.callbacks.DeathCallback;
-import utils.callbacks.MessageCallback;
 import utils.generators.Generator;
 
 public abstract class Unit extends Tile {

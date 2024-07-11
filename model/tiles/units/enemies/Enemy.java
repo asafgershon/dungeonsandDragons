@@ -3,7 +3,7 @@ package model.tiles.units.enemies;
 import model.tiles.units.Unit;
 import model.tiles.units.players.Player;
 
-public class Enemy extends Unit {
+public abstract class Enemy extends Unit {
     protected int experienceValue;
 
     public Enemy(char tile, String name, int hitPoints, int attack, int defense, int experienceValue) {
@@ -24,11 +24,19 @@ public class Enemy extends Unit {
         // Do nothing
     }
 
+    public abstract void onDeath(Unit killer,boolean fromAbility);
+
     public void visit(Player p){
         battle(p);
         if (!p.alive()){
-            p.onDeath();
+            if(!p.alive())
+                p.onDeath(this,false);
         }
+    }
+
+    public int getExpRaise()
+    {
+        return this.experienceValue;
     }
 
 }

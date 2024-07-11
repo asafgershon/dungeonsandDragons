@@ -10,30 +10,61 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class Board {
-    private Map<Position, Tile> board;
-    private Player player;
-    private List<Enemy> enemies;
-    private final int width;
+    private Tile[][] board;
+    private int boardCurrentY;
 
-    public Board(List<Tile> tiles, Player p, List<Enemy> enemies, int width){
-        this.player = p;
-        this.enemies = enemies;
-        this.width = width;
-        this.board = new TreeMap<>();
-        for(Tile t : tiles){
-            board.put(t.getPosition(), t);
-        }
+    public Board(int sizeX,int sizeY)
+    {
+        this.board = new Tile[sizeX][sizeY];
+        this.boardCurrentY= 0;
+
     }
 
+    public void addTile(Tile t)
+    {
+        this.board[t.getPosition().getX()][t.getPosition().getY()] = t;
+    }
+    public Tile getTileInPosition(Position p)
+    {
+        return this.board[p.getX()][p.getY()];
+    }
+
+    public void increaseHeight()
+    {
+        this.boardCurrentY++;
+    }
+
+    public void swapPosition(Position p1,Position p2)
+    {
+        Tile temp = this.board[p2.getX()][p2.getY()];
+        this.board[p2.getX()][p2.getY()] = this.board[p1.getX()][p1.getY()];
+        this.board[p1.getX()][p1.getY()] = temp;
+    }
+    public int getBoardCurrentY() {
+        return boardCurrentY;
+    }
+
+    public void setBoardCurrentY(int boardCurrentY) {
+        this.boardCurrentY = boardCurrentY;
+    }
+
+    // we need implement this
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for(Map.Entry<Position, Tile> entry : board.entrySet()){
-            sb.append(entry.getValue().toString());
-            if(entry.getKey().getX() == width-1){
-                sb.append("\n");
+
+        String boardString =  "";
+
+        for (int y= 0; y < this.board[0].length; y++) {
+            for (int x = 0; x < this.board.length; x++) {
+                boardString += getTileInPosition(new Position(x, y)).toString();
             }
+            boardString += "\n";
         }
-        return sb.toString();
+
+        return boardString;
+    }
+
+    public Tile[][] getBoard() {
+        return board;
     }
 }

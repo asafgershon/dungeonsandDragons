@@ -8,31 +8,22 @@ import model.tiles.units.players.Player;
 import utils.Health;
 import utils.Position;
 import utils.generators.Generator;
+import utils.callbacks.MessegeCallBack;
 
 public abstract class Unit extends Tile {
     protected String name;
     protected Health health;
     protected int attack;
     protected int defense;
-
     protected Generator generator;
-    protected DeathCallback deathCallback;
-    protected MessageCallback messageCallback;
+    protected MessegeCallBack callBack;
 
-    public Unit(char tile, String name, int hitPoints, int attack, int defense) {
-        super(tile);
+    public Unit(char tile, String name, int hitPoints, int attack, int defense,Position p) {
+        super(tile, p);
         this.name = name;
         this.health = new Health(hitPoints);
         this.attack = attack;
         this.defense = defense;
-    }
-
-    public Unit initialize(Position p, Generator generator, DeathCallback deathCallback, MessageCallback messageCallback){
-        super.initialize(p);
-        this.generator = generator;
-        this.deathCallback = deathCallback;
-        this.messageCallback = messageCallback;
-        return this;
     }
 
     public int attack(){
@@ -53,6 +44,11 @@ public abstract class Unit extends Tile {
         int damageTaken = enemy.health.takeDamage(attack - defense);
     }
 
+    public void move(Tile t)
+    {
+        this.interact(t);
+    }
+
     public void interact(Tile t){
         t.accept(this);
     }
@@ -65,11 +61,21 @@ public abstract class Unit extends Tile {
         // Do nothing
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public abstract void gainEXP(int exp);
+
     public abstract void visit(Player p);
+
     public abstract void visit(Enemy e);
 
-    public void onDeath(){
-        deathCallback.onDeath();
+    public String description()
+    {
+        return " name: " + this.name + "  AttackPoints: " +
+                this.attack + "  DefensePoints: " + this.defense + "  " +
+                "Health Points : (" + this.health.toString() + ")";
     }
 
 

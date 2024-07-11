@@ -35,8 +35,8 @@ public class Level {
     }
     public void choosePlayer(int playerChosen)
     {
-        //this.player = factory.getPlayer(playerChosen);
-        //System.out.println("You choose - " + player.getName());
+        this.player = factory.getPlayer(playerChosen);
+        System.out.println("You choose - " + player.getName());
         System.out.println();
     }
     public boolean hasLevel(String filePath) {
@@ -81,17 +81,17 @@ public class Level {
                 for (int i = 0; i < Line.length(); i++) {
                     char currentTileSymbol = Line.charAt(i);
                     if (currentTileSymbol == '@') {
-                        //this.player.setP(new Position(i, this.board.getBoardCurrentY()));
-                        //this.board.addTile(this.player);
+                        this.player.setPosition(new Position(i, this.board.getBoardCurrentY()));
+                        this.board.addTile(this.player);
                     }
 
                     else {
-                        //Tile temp = factory.getTile(currentTileSymbol,i,this.board.getBoardCurrentY());
-                        //this.board.addTile(temp);
-                        //addEnemy(temp,currentTileSymbol);
+                        Tile temp = factory.getTile(currentTileSymbol,i,this.board.getBoardCurrentY());
+                        this.board.addTile(temp);
+                        addEnemy(temp,currentTileSymbol);
                     }
                 }
-                //this.board.increaseHeight();
+                this.board.increaseHeight();
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException("File doesnt exist");
@@ -108,25 +108,25 @@ public class Level {
     }
     public void gameTick(String action)
     {
-        //Position prev = player.getP();
+        Position prev = player.getPosition();
         if (action.equals("e")) {
             List<Enemy> castAbilityOn = new LinkedList<Enemy>();
             castAbilityOn.addAll(this.monsters);
             castAbilityOn.addAll(this.traps);
-            //this.player.activateAbility(castAbilityOn);
+            this.player.activateAbility(castAbilityOn);
         }
         else
             unitMove(this.player,action);
 
-        //this.board.swapPosition(this.player.getP(),prev);
+        this.board.swapPosition(this.player.getPosition(),prev);
         betweenGameTicks();
 
         for (Monster m : monsters)
         {
-            //prev = m.getP();
-            // 0 - left , 1 - UP ....
+            prev = m.getPosition();
+             //0 - left , 1 - UP ....
             unitMove(m,m.chooseDirection(this.player));
-            //this.board.swapPosition(m.getP(),prev);
+            this.board.swapPosition(m.getPosition(),prev);
             betweenGameTicks();
         }
 
@@ -140,20 +140,20 @@ public class Level {
     public void unitMove(Unit u, String action)
     {
         if (action.equals("w")) {
-            u.move(this.board.getTileInPosition(new Position(u.getP().getX(),u.getP().getY() - 1 )));
+            u.move(this.board.getTileInPosition(new Position(u.getPosition().getX(),u.getPosition().getY() - 1 )));
         }
         if (action.equals("s")) {
-            u.move(this.board.getTileInPosition(new Position(u.getP().getX(),u.getP().getY() + 1 )));
+            u.move(this.board.getTileInPosition(new Position(u.getPosition().getX(),u.getPosition().getY() + 1 )));
         }
         if (action.equals("a"))
-            u.move(this.board.getTileInPosition(new Position(u.getP().getX() - 1 ,u.getP().getY() )));
+            u.move(this.board.getTileInPosition(new Position(u.getPosition().getX() - 1 ,u.getPosition().getY() )));
 
         if (action.equals("d"))
-            u.move(this.board.getTileInPosition(new Position(u.getP().getX() + 1,u.getP().getY())));
+            u.move(this.board.getTileInPosition(new Position(u.getPosition().getX() + 1,u.getPosition().getY())));
     }
     public boolean gameOver()
     {
-        return player.isDead();
+        return player.alive();
     }
     public boolean isOver()
     {
@@ -165,8 +165,8 @@ public class Level {
         List<Trap> aliveTraps = new LinkedList<Trap>();
         for (Monster m : this.monsters)
         {
-            if (m.isDead()) {
-                this.board.addTile(new Empty(m.getP().getX(), m.getP().getY()));
+            if (m.alive()) {
+                this.board.addTile(new Empty(m.getPosition().getX(), m.getPosition().getY()));
             }
             else
                 aliveMonsters.add(m);
@@ -174,8 +174,8 @@ public class Level {
         }
         for (Trap t : this.traps)
         {
-            if (t.isDead()) {
-                this.board.addTile(new Empty(t.getP().getX(), t.getP().getY()));
+            if (t.alive()) {
+                this.board.addTile(new Empty(t.getPosition().getX(), t.getPosition().getY()));
             }
             else
                 aliveTraps.add(t);

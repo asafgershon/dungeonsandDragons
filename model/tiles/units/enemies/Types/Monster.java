@@ -19,7 +19,7 @@ public class Monster extends Enemy {
 
     public Monster(int expRaise, String name, int attackPoints, int defensePoints, int health, int x, int y, char symbol, int vision)
     {
-        super(symbol, name,health,attackPoints,defensePoints,expRaise);
+        super(symbol, name,health,attackPoints,defensePoints,expRaise, new Position(x,y));
         this.vision = vision;
         callBack = new MessegeCallBack();
     }

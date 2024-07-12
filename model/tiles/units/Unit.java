@@ -96,4 +96,7 @@ public abstract class Unit extends Tile {
         this.attack = attackPoints;
     }
 
+    protected void setAttackPoints(int i) {
+        this.attack = i;
+    }
 }

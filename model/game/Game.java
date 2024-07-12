@@ -12,7 +12,7 @@ import java.util.Scanner;
     public class Game {
         private Level currentLevel;
         private String directoryPath;
-        //private String directoryPath = "\\C:\\OOP3\\OOP3\\levels_dir\\";
+
         public Game(String directoryPath)
         {
             System.out.println();
@@ -33,9 +33,8 @@ import java.util.Scanner;
 
             Scanner scanner = new Scanner(System.in);
             int levelNumber = 1;
-            while (!currentLevel.gameOver() & currentLevel.hasLevel(directoryPath + "\\levels_dir" + levelNumber + ".txt")) {
-
-                currentLevel.loadLevel(directoryPath + "\\levels_dir" + levelNumber + ".txt");
+            while (!currentLevel.gameOver() & currentLevel.hasLevel(directoryPath + "\\level" + levelNumber + ".txt")) {
+                currentLevel.loadLevel(directoryPath + "\\level" + levelNumber + ".txt");
 
                 while (!currentLevel.gameOver() & !currentLevel.isOver()) {
                     System.out.println();

@@ -16,7 +16,7 @@ public class Rogue extends Player {
     private MessegeCallBack callBack;
     public Rogue(String name ,  int attackPoints, int defensePoints, int health, int x, int y , int abilityCost)
     {
-        super(name, attackPoints, defensePoints, new Health(health), new Position(x, y));
+        super(name,health, attackPoints, defensePoints, new Position(x, y));
         this.energy = new Health(100);
         this.abilityCost = abilityCost;
         callBack = new MessegeCallBack();
@@ -26,7 +26,7 @@ public class Rogue extends Player {
     {
         super.levelUp();
         this.energy.setCurrent(100);
-        this.setAttackPoints(this.getAttackPoints() + this.getLevel() * 3);
+        this.setAttackPoints(this.getAttack() + this.getLevel() * 3);
     }
 
     public void activateAbility(List<Enemy> enemies)
@@ -38,9 +38,9 @@ public class Rogue extends Player {
                 callBack.onMessageRecieved("No enemies in Fan of Knives range ");
             else
             {
-                this.energy.decreasBarPoints(this.abilityCost);
+                this.energy.decreaseCurrentHealth(this.abilityCost);
                 for (Enemy e : enemiesInRange) {
-                    this.attackWithAbility(e, this.getAttackPoints());
+                    this.attackWithAbility(e, this.getAttack());
                 }
             }
         }

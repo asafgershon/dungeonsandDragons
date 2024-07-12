@@ -21,7 +21,7 @@ public class Trap extends Enemy {
     private char defSymbol;
 
     public Trap(int expRaise, String name, int attackPoints, int defensePoints, int health, int x, int y, char symbol, int visibilityTime, int invisibilityTime) {
-        super(expRaise, name, attackPoints, defensePoints, new Health(health),new Position(x,y), symbol);
+        super(symbol, name,health, attackPoints, defensePoints,expRaise,new Position(x,y));
         this.visibilityTime = visibilityTime;
         this.invisibilityTime = invisibilityTime;
         this.ticksCount = 0;

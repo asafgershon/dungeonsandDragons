@@ -37,8 +37,8 @@ public class Mage extends Player {
     public void levelUP()
     {
         super.levelUp();
-        this.mana.tPool(mana.getPool() + this.getLevel()*25);
-        this.mana.increaseCurrent(this.mana.getPool()/4);
+        this.mana.setCapacity(mana.getCapacity() + this.getLevel()*25);
+        this.mana.increaseCurrentHealth(this.mana.getCapacity()/4);
         this.spellPower = this.spellPower + this.getLevel() * 10;
     }
 
@@ -53,7 +53,7 @@ public class Mage extends Player {
                 callBack.onMessageRecieved("No enemies in Blizzard Range");
             else
             {
-                this.mana.decreasBarPoints(this.abilityCost);
+                this.mana.decreaseCurrentHealth(this.abilityCost);
                 for (int i = 1; i <= this.hitsCount && enemiesInRange.size() > 0; i++) {
                     int index = (new Random()).nextInt(0, enemiesInRange.size());
                     Enemy randomEnemy = enemiesInRange.get(index);

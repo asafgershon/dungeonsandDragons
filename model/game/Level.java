@@ -1,4 +1,5 @@
 package model.game;
+
 import control.initializers.TileFactory;
 import model.tiles.Empty;
 import model.tiles.Tile;
@@ -33,6 +34,7 @@ public class Level {
     {
         this.board = new Board(x,y);
     }
+
     public void choosePlayer(int playerChosen)
     {
         this.player = factory.getPlayer(playerChosen);
@@ -40,7 +42,6 @@ public class Level {
         System.out.println();
     }
     public boolean hasLevel(String filePath) {
-
         File file = new File(filePath);
         try (Scanner scanner = new Scanner(file)) {
             return true;
@@ -153,19 +154,21 @@ public class Level {
     }
     public boolean gameOver()
     {
-        return player.alive();
+        return !player.alive();
     }
+
     public boolean isOver()
     {
         return monsters.size() == 0;
     }
+
     public void betweenGameTicks()
     {
         List<Monster> aliveMonsters = new LinkedList<Monster>();
         List<Trap> aliveTraps = new LinkedList<Trap>();
         for (Monster m : this.monsters)
         {
-            if (m.alive()) {
+            if (!m.alive()) {
                 this.board.addTile(new Empty(m.getPosition().getX(), m.getPosition().getY()));
             }
             else
@@ -174,7 +177,7 @@ public class Level {
         }
         for (Trap t : this.traps)
         {
-            if (t.alive()) {
+            if (!t.alive()) {
                 this.board.addTile(new Empty(t.getPosition().getX(), t.getPosition().getY()));
             }
             else

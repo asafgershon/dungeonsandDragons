@@ -20,7 +20,7 @@ public class Hunter extends Player {
     public Hunter(String name ,  int attackPoints, int defensePoints, int hitPoints, int x, int y ,
                   int range)
     {
-        super(name,health, attackPoints,defensePoints,new Position(x,y));
+        super(name,hitPoints, attackPoints,defensePoints,new Position(x,y));
         this.range = range;
         this.arrowsCount = 10;
         this.ticksCount = 0;
@@ -40,7 +40,7 @@ public class Hunter extends Player {
         callBack.onMessageRecieved("Hunter " + this.getName() + " Just activated special ability Shoot!");
         if(this.arrowsCount > 0)
         {
-            List<Enemy> enemiesInRange = enemies.stream().filter(e -> this.getP().Distance(e.getP()) <= this.range).toList();
+            List<Enemy> enemiesInRange = enemies.stream().filter(e -> this.getPosition().range(e.getPosition()) <= this.range).toList();
             if (enemiesInRange.size() == 0)
                 callBack.onMessageRecieved("No enemies in  Shoot range ");
             else

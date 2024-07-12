@@ -4,7 +4,13 @@ import model.tiles.Empty;
 import model.tiles.Tile;
 import model.tiles.Wall;
 import model.tiles.units.enemies.Enemy;
+import model.tiles.units.enemies.Types.Monster;
+import model.tiles.units.enemies.Types.Trap;
 import model.tiles.units.players.Player;
+import model.tiles.units.players.roles.Hunter;
+import model.tiles.units.players.roles.Mage;
+import model.tiles.units.players.roles.Rogue;
+import model.tiles.units.players.roles.Warrior;
 import utils.Position;
 import utils.generators.Generator;
 

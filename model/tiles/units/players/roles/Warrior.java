@@ -67,4 +67,8 @@ public class Warrior extends Player {
     {
         this.callBack.onMessageRecieved("Warrior " +this.getName() + "\n Stats : " + this.description() + "\n");
     }
+
+    public int getRemainingCooldown() {
+        return remainingCooldown;
+    }
 }

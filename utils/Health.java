@@ -54,4 +54,9 @@ public class Health {
     public void setCurrent(int i) {
         this.current = i;
     }
+
+    public String toString()
+    {
+        return " Max Points : " + this.capacity + " Current Points : " + this.current;
+    }
 }

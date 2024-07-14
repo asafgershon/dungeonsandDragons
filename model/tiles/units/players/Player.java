@@ -23,14 +23,17 @@ public abstract class Player extends Unit {
         super(PLAYER_TILE, name, hitPoints, attack, defense, p);
         this.level = 1;
         this.experience = 0;
+        this.callBack = new MessegeCallBack();
     }
 
     public void addExperience(int experienceValue){
         this.experience += experienceValue;
         while (experience >= levelRequirement()) {
-            levelUp();
+            levelUP();
         }
     }
+
+    protected abstract void levelUP();
 
     public void levelUp(){
         this.experience -= levelRequirement();

@@ -12,9 +12,9 @@ import model.tiles.units.players.Player;
 
 public class Warrior extends Player {
 
-    private int abilityCooldown;
+    private final int abilityCooldown;
     private int remainingCooldown;
-    private MessegeCallBack callBack;
+    private final MessegeCallBack callBack;
 
     public Warrior(String name ,  int attackPoints, int defensePoints, int health, int x, int y ,
                    int abilityCooldown)

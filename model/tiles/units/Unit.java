@@ -7,8 +7,10 @@ import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
 import utils.Health;
 import utils.Position;
+import utils.generators.FixedGenerator;
 import utils.generators.Generator;
 import utils.callbacks.MessegeCallBack;
+import utils.generators.RandomGenerator;
 
 public abstract class Unit extends Tile {
     protected String name;
@@ -24,6 +26,8 @@ public abstract class Unit extends Tile {
         this.health = new Health(hitPoints);
         this.attack = attack;
         this.defense = defense;
+        this.generator = new RandomGenerator();
+        this.callBack = new MessegeCallBack();
     }
 
     public int attack(){
@@ -39,15 +43,31 @@ public abstract class Unit extends Tile {
     }
 
     public void battle(Unit enemy) {
+        this.callBack.onMessageRecieved(this.getName() + " just started a fight with " + enemy.getName());
+        this.info();
+        enemy.info();
         int attack = this.attack();
         int defense = enemy.defend();
-        int damageTaken = enemy.health.takeDamage(attack - defense);
+        if(attack > defense)
+        {
+            enemy.getHealth().decreaseCurrentHealth(attack - defense);
+            callBack.onMessageRecieved(this.getName() + " attacked with " + (attack - defense) + " points");
+            enemy.info();
+        }
+        else
+            callBack.onMessageRecieved("Attack was too low to break " + enemy.getName() + " defense");
+        if(!enemy.alive())
+            enemy.onDeath(this,false);
     }
+
+    public abstract void onDeath(Unit killer,boolean fromAbility);
 
     public void move(Tile t)
     {
         this.interact(t);
     }
+
+    public abstract void info();
 
     public void interact(Tile t){
         t.accept(this);

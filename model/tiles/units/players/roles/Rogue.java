@@ -11,13 +11,14 @@ import utils.callbacks.MessegeCallBack;
 
 public class Rogue extends Player {
 
+    private final int startEnergy = 100;
     private Health energy;
     private int abilityCost;
     private MessegeCallBack callBack;
     public Rogue(String name ,  int attackPoints, int defensePoints, int health, int x, int y , int abilityCost)
     {
         super(name,health, attackPoints, defensePoints, new Position(x, y));
-        this.energy = new Health(100);
+        this.energy = new Health(startEnergy);
         this.abilityCost = abilityCost;
         callBack = new MessegeCallBack();
     }
@@ -25,7 +26,7 @@ public class Rogue extends Player {
     public void levelUP()
     {
         super.levelUp();
-        this.energy.setCurrent(100);
+        this.energy.setCurrent(startEnergy);
         this.setAttackPoints(this.getAttack() + this.getLevel() * 3);
     }
 

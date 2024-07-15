@@ -63,5 +63,9 @@ public class Rogue extends Player {
     {
         this.callBack.onMessageRecieved("Rogue " +this.getName() + "\n Stats : " + this.description() + "\n");
     }
+
+    public Health getEnergy() {
+        return energy;
+    }
 }
 

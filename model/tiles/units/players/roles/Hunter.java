@@ -29,10 +29,10 @@ public class Hunter extends Player {
 
     public void levelUP()
     {
-        super.levelUp();
         this.arrowsCount += this.getLevel()*10;
         this.setAttack(this.getAttack() + (2*this.getLevel()));
         this.setDefense(this.getDefense() + this.getLevel());
+        super.levelUp();
     }
 
     public void activateAbility(List<Enemy> enemies)

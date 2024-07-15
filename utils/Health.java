@@ -57,6 +57,6 @@ public class Health {
 
     public String toString()
     {
-        return " Max Points : " + this.capacity + " Current Points : " + this.current;
+        return "Max: " + this.capacity + " Current: " + this.current;
     }
 }

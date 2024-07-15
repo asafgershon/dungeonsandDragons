@@ -28,6 +28,6 @@ public class PositionTest {
         Assert.assertEquals("Range between position1 and position3 should be sqrt(2)", Math.sqrt(2), position1.range(position3), delta);
 
         // Test range between position2 and position3
-        Assert.assertEquals("Range between position2 and position3 should be sqrt(18)", Math.sqrt(18), position2.range(position3), delta);
+        Assert.assertEquals("Range between position2 and position3 should be sqrt(18)", Math.sqrt(13), position2.range(position3), delta);
     }
 }

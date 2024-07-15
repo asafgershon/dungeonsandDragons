@@ -10,7 +10,7 @@ public class Position {
     }
 
     public double range(Position other){
-        return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
+        return Math.sqrt((double) (Math.pow(this.x - other.x, 2)) + (double) (Math.pow(this.y - other.y, 2)));
     }
 
     public int getX() {

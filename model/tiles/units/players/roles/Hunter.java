@@ -29,10 +29,10 @@ public class Hunter extends Player {
 
     public void levelUP()
     {
-        super.levelUp();
         this.arrowsCount += this.getLevel()*10;
         this.setAttack(this.getAttack() + (2*this.getLevel()));
         this.setDefense(this.getDefense() + this.getLevel());
+        super.levelUp();
     }
 
     public void activateAbility(List<Enemy> enemies)
@@ -76,5 +76,13 @@ public class Hunter extends Player {
     public void info()
     {
         this.callBack.onMessageRecieved("Hunter " + this.getName() + "\n Stats : " + this.description() + "\n");
+    }
+
+    public int getArrowsCount() {
+        return arrowsCount;
+    }
+
+    public void setArrowsCount(int i) {
+        this.arrowsCount = i;
     }
 }

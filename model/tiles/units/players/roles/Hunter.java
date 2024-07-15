@@ -77,4 +77,12 @@ public class Hunter extends Player {
     {
         this.callBack.onMessageRecieved("Hunter " + this.getName() + "\n Stats : " + this.description() + "\n");
     }
+
+    public int getArrowsCount() {
+        return arrowsCount;
+    }
+
+    public void setArrowsCount(int i) {
+        this.arrowsCount = i;
+    }
 }

@@ -82,4 +82,12 @@ public class Mage extends Player {
     {
         this.callBack.onMessageRecieved("Mage " + this.getName() + "\n Stats : " + this.description() + "\n");
     }
+
+    public Health getMana() {
+        return mana;
+    }
+
+    public int getSpellPower() {
+        return spellPower;
+    }
 }

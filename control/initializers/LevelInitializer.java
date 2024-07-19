@@ -3,7 +3,6 @@ package control.initializers;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 
 public class LevelInitializer {

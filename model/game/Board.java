@@ -1,13 +1,7 @@
 package model.game;
 
 import model.tiles.Tile;
-import model.tiles.units.enemies.Enemy;
-import model.tiles.units.players.Player;
 import utils.Position;
-
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class Board {
     private Tile[][] board;

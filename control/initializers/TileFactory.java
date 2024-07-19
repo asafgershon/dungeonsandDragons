@@ -12,7 +12,8 @@ import model.tiles.units.players.roles.Mage;
 import model.tiles.units.players.roles.Rogue;
 import model.tiles.units.players.roles.Warrior;
 import utils.Position;
-import utils.generators.Generator;
+import utils.callbacks.MessageCallback;
+import view.CLI;
 
 import java.util.Arrays;
 import java.util.List;
@@ -64,10 +65,15 @@ public class TileFactory {
         return enemies.stream().collect(Collectors.toMap(s -> s.get().getSymbol(), Function.identity()));
     }
 
+    public List<Player> listPlayers(){
+        return playersList.stream().map(Supplier::get).collect(Collectors.toList());
+    }
+
     public Player getPlayer(int index)
     {
         return this.playersList.get(index).get();
     }
+
     public Enemy getEnemy(char c)
     {
         return this.enemiesMap.get(c).get();
@@ -84,11 +90,6 @@ public class TileFactory {
         e.setPosition(new Position(x,y));
 
         return e;
-    }
-
-
-    public List<Player> listPlayers(){
-        return playersList.stream().map(Supplier::get).collect(Collectors.toList());
     }
 }
 

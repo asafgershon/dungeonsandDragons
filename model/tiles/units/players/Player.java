@@ -3,9 +3,8 @@ package model.tiles.units.players;
 import model.tiles.units.Unit;
 import model.tiles.units.enemies.Enemy;
 import utils.Position;
-import utils.callbacks.MessegeCallBack;
-
 import java.util.List;
+import utils.callbacks.MessageCallback;
 
 public abstract class Player extends Unit {
     public static final char PLAYER_TILE = '@';
@@ -16,14 +15,12 @@ public abstract class Player extends Unit {
 
     protected int level;
     protected int experience;
-    private MessegeCallBack callBack;
 
 
     public Player(String name, int hitPoints, int attack, int defense, Position p) {
         super(PLAYER_TILE, name, hitPoints, attack, defense, p);
         this.level = 1;
         this.experience = 0;
-        this.callBack = new MessegeCallBack();
     }
 
     public void addExperience(int experienceValue){
@@ -66,14 +63,14 @@ public abstract class Player extends Unit {
         if(attackPoints > e.getDefense())
         {
             e.getHealth().decreaseCurrentHealth(attackPoints - e.getDefense());
-            callBack.onMessageRecieved(this.getName() + " attacked " + e.getName() +
+            callBack.send(this.getName() + " attacked " + e.getName() +
                     " with " + (attackPoints - e.getDefense()) + " attack points!");
             e.info();
             if (!e.alive())
                 e.onDeath(this,true);
         }
         else
-            callBack.onMessageRecieved("Attack was too low to break " + e.getName() + " defense");
+            callBack.send("Attack was too low to break " + e.getName() + " defense");
 
     }
 
@@ -114,12 +111,12 @@ public abstract class Player extends Unit {
     public void onDeath(Unit killer,boolean fromAbility) {
         this.setSymbol('X');
         killer.swapPosition(this);
-        callBack.onMessageRecieved("Player " + this.getName() + " died.");
+        callBack.send("Player " + this.getName() + " died.");
     }
 
     public void gainEXP(int exp)
     {
-        callBack.onMessageRecieved("Player " + this.getName() + " just Gained " + exp + " EXP");
+        callBack.send("Player " + this.getName() + " just Gained " + exp + " EXP");
         while(exp > 0)
         {
             if(this.getExp() + exp >= this.level * 50)

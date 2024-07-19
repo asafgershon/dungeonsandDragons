@@ -6,8 +6,6 @@ import utils.Position;
 import utils.Health;
 import model.tiles.Tile;
 import model.tiles.units.Unit;
-import utils.callbacks.MessegeCallBack;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -15,13 +13,11 @@ import java.util.Random;
 public class Monster extends Enemy {
 
     private int vision;
-    private MessegeCallBack callBack;
 
     public Monster(int expRaise, String name, int attackPoints, int defensePoints, int health, int x, int y, char symbol, int vision)
     {
         super(symbol, name,health,attackPoints,defensePoints,expRaise, new Position(x,y));
         this.vision = vision;
-        callBack = new MessegeCallBack();
     }
 
     public void visit (Player p)
@@ -50,7 +46,7 @@ public class Monster extends Enemy {
         killer.gainEXP(this.getExpRaise());
         if (!fromAbility)
             killer.swapPosition(this);
-        callBack.onMessageRecieved("Monster " + this.getName() + " died.");
+        callBack.send("Monster " + this.getName() + " died.");
     }
 
     public void gainEXP(int exp)
@@ -97,7 +93,7 @@ public class Monster extends Enemy {
     }
     public void info()
     {
-        this.callBack.onMessageRecieved("Monster " + this.getName() + "\n Stats : " + this.description() + "\n");
+        this.callBack.send("Monster " + this.getName() + "\n Stats : " + this.description() + "\n");
     }
 
 }

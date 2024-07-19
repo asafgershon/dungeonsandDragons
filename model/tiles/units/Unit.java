@@ -7,9 +7,8 @@ import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
 import utils.Health;
 import utils.Position;
-import utils.generators.FixedGenerator;
+import utils.callbacks.MessageCallback;
 import utils.generators.Generator;
-import utils.callbacks.MessegeCallBack;
 import utils.generators.RandomGenerator;
 
 public abstract class Unit extends Tile {
@@ -18,7 +17,7 @@ public abstract class Unit extends Tile {
     protected int attack;
     protected int defense;
     protected Generator generator;
-    protected MessegeCallBack callBack;
+    protected MessageCallback callBack;
 
     public Unit(char tile, String name, int hitPoints, int attack, int defense,Position p) {
         super(tile, p);
@@ -27,7 +26,6 @@ public abstract class Unit extends Tile {
         this.attack = attack;
         this.defense = defense;
         this.generator = new RandomGenerator();
-        this.callBack = new MessegeCallBack();
     }
 
     public int attack(){
@@ -43,7 +41,7 @@ public abstract class Unit extends Tile {
     }
 
     public void battle(Unit enemy) {
-        this.callBack.onMessageRecieved(this.getName() + " just started a fight with " + enemy.getName());
+        this.callBack.send(this.getName() + " just started a fight with " + enemy.getName());
         this.info();
         enemy.info();
         int attack = this.attack();
@@ -51,11 +49,11 @@ public abstract class Unit extends Tile {
         if(attack > defense)
         {
             enemy.getHealth().decreaseCurrentHealth(attack - defense);
-            callBack.onMessageRecieved(this.getName() + " attacked with " + (attack - defense) + " points");
+            callBack.send(this.getName() + " attacked with " + (attack - defense) + " points");
             enemy.info();
         }
         else
-            callBack.onMessageRecieved("Attack was too low to break " + enemy.getName() + " defense");
+            callBack.send("Attack was too low to break " + enemy.getName() + " defense");
         if(!enemy.alive())
             enemy.onDeath(this,false);
     }

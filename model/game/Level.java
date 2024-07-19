@@ -9,6 +9,8 @@ import model.tiles.units.enemies.Types.Monster;
 import model.tiles.units.enemies.Types.Trap;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.Unit;
+import utils.callbacks.MessageCallback;
+import view.CLI;
 
 
 import java.io.File;
@@ -195,16 +197,16 @@ public class Level {
         System.out.println();
         System.out.println(this.board.toString());
     }
-    public String showPlayers()
+    public void showPlayers()
     {
+        MessageCallback msg = (MessageCallback) new CLI();
         String s = "";
         int index = 0;
         for (Player p : factory.listPlayers()) {
             s += "( " + index + " ) "+ "  Player info - "+ p.description() + "\n";
             index++;
         }
-
-        return s;
+        msg.send(s);
     }
 
 }

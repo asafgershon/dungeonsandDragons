@@ -1,15 +1,9 @@
 package model.tiles.units.enemies.Types;
 
 import model.tiles.units.enemies.Enemy;
-import utils.callbacks.MessegeCallBack;
 import model.tiles.units.Unit;
 import model.tiles.units.players.Player;
-import utils.Health;
 import utils.Position;
-import java.util.List;
-
-
-
 
 public class Trap extends Enemy {
 
@@ -17,7 +11,6 @@ public class Trap extends Enemy {
     private int invisibilityTime;
     private int ticksCount;
     private boolean visible;
-    private MessegeCallBack callBack;
     private char defSymbol;
 
     public Trap(int expRaise, String name, int attackPoints, int defensePoints, int health, int x, int y, char symbol, int visibilityTime, int invisibilityTime) {
@@ -27,7 +20,6 @@ public class Trap extends Enemy {
         this.ticksCount = 0;
         this.visible = true;
         this.defSymbol = symbol;
-        this.callBack = new MessegeCallBack();
     }
     public void visit (Player p)
     {
@@ -47,7 +39,7 @@ public class Trap extends Enemy {
         killer.gainEXP(this.getExpRaise());
         if (!fromAbility)
             killer.swapPosition(this);
-        callBack.onMessageRecieved("Trap " + this.getName() + " died.");
+        callBack.send("Trap " + this.getName() + " died.");
     }
     public void gainEXP(int exp) { }
 
@@ -81,6 +73,6 @@ public class Trap extends Enemy {
     }
     public void info()
     {
-        this.callBack.onMessageRecieved("Trap " + this.getName() + "\n Stats : " + this.description() + "\n");
+        this.callBack.send("Trap " + this.getName() + "\n Stats : " + this.description() + "\n");
     }
 }

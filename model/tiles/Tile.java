@@ -2,18 +2,14 @@ package model.tiles;
 
 import model.tiles.units.Unit;
 import utils.Position;
-import utils.Position;
-import utils.callbacks.MessegeCallBack;
 
 public abstract class Tile {
     protected char tile;
     protected Position position;
-    private MessegeCallBack callBack;
 
     public Tile(char tile, Position p){
         this.tile = tile;
         this.position = p;
-        this.callBack = new MessegeCallBack();
     }
 
     public Tile initialize(Position p){

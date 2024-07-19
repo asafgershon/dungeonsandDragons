@@ -5,8 +5,6 @@ import model.tiles.Tile;
 import utils.Health;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
-import utils.callbacks.MessegeCallBack;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -20,8 +18,6 @@ public class Mage extends Player {
     private int abilityCost;
     private int hitsCount;
 
-    private MessegeCallBack callBack;
-
     public Mage(String name ,  int attackPoints, int defensePoints, int health, int x, int y ,
                 int manaPool , int spellPower , int abilityCost , int hitsCount , int abilityRange)
     {
@@ -31,7 +27,6 @@ public class Mage extends Player {
         this.abilityRange = abilityRange;
         this.abilityCost = abilityCost;
         this.hitsCount = hitsCount;
-        callBack = new MessegeCallBack();
     }
 
     public void levelUP()
@@ -44,13 +39,13 @@ public class Mage extends Player {
 
     public void activateAbility(List<Enemy> enemies)
     {
-        callBack.onMessageRecieved("Mage " + this.getName() + " Just activated special ability Blizzard!");
+        callBack.send("Mage " + this.getName() + " Just activated special ability Blizzard!");
         if(this.mana.getCurrent() >= this.abilityCost)
         {
             List<Enemy> enemiesInRange = new LinkedList<Enemy>();
             enemiesInRange = enemies.stream().filter(e -> this.getPosition().range(e.getPosition()) <= this.abilityRange).collect(Collectors.toList());
             if (enemiesInRange.size() == 0)
-                callBack.onMessageRecieved("No enemies in Blizzard Range");
+                callBack.send("No enemies in Blizzard Range");
             else
             {
                 this.mana.decreaseCurrentHealth(this.abilityCost);
@@ -66,7 +61,7 @@ public class Mage extends Player {
             }
         }
         else
-            this.callBack.onMessageRecieved("Not enough mana to use special ability");
+            this.callBack.send("Not enough mana to use special ability");
     }
 
     public void move(Tile t)
@@ -80,7 +75,7 @@ public class Mage extends Player {
     }
     public void info()
     {
-        this.callBack.onMessageRecieved("Mage " + this.getName() + "\n Stats : " + this.description() + "\n");
+        this.callBack.send("Mage " + this.getName() + "\n Stats : " + this.description() + "\n");
     }
 
     public Health getMana() {

@@ -1,8 +1,8 @@
 package model.tiles.units.players.roles;
+
 import  java.util.List;
 import java.util.Random;
 
-import utils.callbacks.MessegeCallBack;
 import utils.Position;
 import model.tiles.Tile;
 import utils.Health;
@@ -14,7 +14,6 @@ public class Warrior extends Player {
 
     private final int abilityCooldown;
     private int remainingCooldown;
-    private final MessegeCallBack callBack;
 
     public Warrior(String name ,  int attackPoints, int defensePoints, int health, int x, int y ,
                    int abilityCooldown)
@@ -22,7 +21,6 @@ public class Warrior extends Player {
         super(name,health,attackPoints,defensePoints,new Position(x,y));
         this.abilityCooldown = abilityCooldown;
         this.remainingCooldown = 0;
-        callBack = new MessegeCallBack();
     }
 
     public void levelUP()
@@ -36,11 +34,11 @@ public class Warrior extends Player {
 
     public void activateAbility(List<Enemy> enemies)
     {
-        callBack.onMessageRecieved("Warrior " + this.getName() + " Just activated special ability Avengers Shield!");
+        callBack.send("Warrior " + this.getName() + " Just activated special ability Avengers Shield!");
         if(this.remainingCooldown == 0) {
             List<Enemy> enemiesInRange = enemies.stream().filter(e -> this.getPosition().range(e.getPosition()) < 3).toList();
             if (enemiesInRange.size() == 0)
-                callBack.onMessageRecieved("No enemies in Avengers shield range ");
+                callBack.send("No enemies in Avengers shield range ");
             else
             {
                 this.remainingCooldown = this.abilityCooldown;
@@ -50,7 +48,7 @@ public class Warrior extends Player {
             }
         }
         else
-            this.callBack.onMessageRecieved("Still have cooldown remaining to use special ability");
+            this.callBack.send("Still have cooldown remaining to use special ability");
 
     }
     public void move(Tile t)
@@ -65,7 +63,7 @@ public class Warrior extends Player {
     }
     public void info()
     {
-        this.callBack.onMessageRecieved("Warrior " +this.getName() + "\n Stats : " + this.description() + "\n");
+        this.callBack.send("Warrior " +this.getName() + "\n Stats : " + this.description() + "\n");
     }
 
     public int getRemainingCooldown() {

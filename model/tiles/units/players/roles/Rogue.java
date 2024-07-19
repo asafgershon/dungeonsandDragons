@@ -7,20 +7,18 @@ import model.tiles.Tile;
 import utils.Health;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
-import utils.callbacks.MessegeCallBack;
 
 public class Rogue extends Player {
 
     private final int startEnergy = 100;
     private Health energy;
     private int abilityCost;
-    private MessegeCallBack callBack;
+
     public Rogue(String name ,  int attackPoints, int defensePoints, int health, int x, int y , int abilityCost)
     {
         super(name,health, attackPoints, defensePoints, new Position(x, y));
         this.energy = new Health(startEnergy);
         this.abilityCost = abilityCost;
-        callBack = new MessegeCallBack();
     }
 
     public void levelUP()
@@ -32,11 +30,11 @@ public class Rogue extends Player {
 
     public void activateAbility(List<Enemy> enemies)
     {
-        callBack.onMessageRecieved("Rogue " + this.getName() + " Just activated special ability Fan Of Knives!");
+        callBack.send("Rogue " + this.getName() + " Just activated special ability Fan Of Knives!");
         if(this.energy.getCurrent() >= this.abilityCost) {
             List<Enemy> enemiesInRange = enemies.stream().filter(e -> this.getPosition().range(e.getPosition()) < 2).toList();
             if (enemiesInRange.size() == 0)
-                callBack.onMessageRecieved("No enemies in Fan of Knives range ");
+                callBack.send("No enemies in Fan of Knives range ");
             else
             {
                 this.energy.decreaseCurrentHealth(this.abilityCost);
@@ -46,7 +44,7 @@ public class Rogue extends Player {
             }
         }
         else
-            this.callBack.onMessageRecieved("Not enough energy to use special ability");
+            this.callBack.send("Not enough energy to use special ability");
 
     }
 
@@ -61,7 +59,7 @@ public class Rogue extends Player {
     }
     public void info()
     {
-        this.callBack.onMessageRecieved("Rogue " +this.getName() + "\n Stats : " + this.description() + "\n");
+        this.callBack.send("Rogue " +this.getName() + "\n Stats : " + this.description() + "\n");
     }
 
     public int getEnergy() {

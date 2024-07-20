@@ -10,7 +10,6 @@ import model.tiles.units.enemies.Types.Trap;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.Unit;
 import utils.callbacks.MessageCallback;
-import view.CLI;
 
 
 import java.io.File;
@@ -24,12 +23,14 @@ public class Level {
     private List<Monster> monsters;
     private List<Trap> traps;
     private Player player;
+    private MessageCallback msg;
+    private TileFactory factory;
 
-    private TileFactory factory = new TileFactory();
-
-    public Level() {
+    public Level(MessageCallback msg) {
         this.monsters = new LinkedList<>();
         this.traps = new LinkedList<>();
+        this.msg = msg;
+        this.factory = new TileFactory(msg);
     }
 
     public void setBoard(int x, int y)
@@ -40,8 +41,7 @@ public class Level {
     public void choosePlayer(int playerChosen)
     {
         this.player = factory.getPlayer(playerChosen);
-        System.out.println("You choose - " + player.getName());
-        System.out.println();
+        msg.send("You choose - " + player.getName());
     }
     public boolean hasLevel(String filePath) {
         File file = new File(filePath);
@@ -53,7 +53,6 @@ public class Level {
         }
     }
     public void loadLevel(String filePath) {
-
         int sizex = 0;
         int sizey = 0;
         boolean stopx = false;
@@ -194,19 +193,7 @@ public class Level {
     public void levelInfo()
     {
         this.player.info();
-        System.out.println();
-        System.out.println(this.board.toString());
-    }
-    public void showPlayers()
-    {
-        MessageCallback msg = (MessageCallback) new CLI();
-        String s = "";
-        int index = 0;
-        for (Player p : factory.listPlayers()) {
-            s += "( " + index + " ) "+ "  Player info - "+ p.description() + "\n";
-            index++;
-        }
-        msg.send(s);
+        msg.send(this.board.toString());
     }
 
 }

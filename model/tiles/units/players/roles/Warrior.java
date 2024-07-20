@@ -8,6 +8,7 @@ import model.tiles.Tile;
 import utils.Health;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
+import utils.callbacks.MessageCallback;
 
 
 public class Warrior extends Player {
@@ -15,21 +16,21 @@ public class Warrior extends Player {
     private final int abilityCooldown;
     private int remainingCooldown;
 
-    public Warrior(String name ,  int attackPoints, int defensePoints, int health, int x, int y ,
-                   int abilityCooldown)
+    public Warrior(String name, int attackPoints, int defensePoints, int health, int x, int y,
+                   int abilityCooldown, MessageCallback callBack)
     {
-        super(name,health,attackPoints,defensePoints,new Position(x,y));
+        super(name,health,attackPoints,defensePoints,new Position(x,y),callBack);
         this.abilityCooldown = abilityCooldown;
         this.remainingCooldown = 0;
     }
 
     public void levelUP()
     {
-        super.levelUp();
         this.remainingCooldown = 0;
         this.getHealth().setCapacity(this.getHealth().getCapacity() + this.getLevel()*5);
         this.setAttack(this.getAttack() + 2 * this.getLevel());
         this.setDefense(this.getDefense() + this.getLevel());
+        super.levelUp();
     }
 
     public void activateAbility(List<Enemy> enemies)
@@ -51,12 +52,14 @@ public class Warrior extends Player {
             this.callBack.send("Still have cooldown remaining to use special ability");
 
     }
+
     public void move(Tile t)
     {
         this.interact(t);
         if(this.remainingCooldown > 0)
             this.remainingCooldown--;
     }
+
     public String description()
     {
         return super.description() + "  Ability Cooldown : " + this.abilityCooldown + "  Remaining Cooldown : " + this.remainingCooldown;

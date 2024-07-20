@@ -106,6 +106,7 @@ public abstract class Unit extends Tile {
     public void setDefense(int defense){
         this.defense = defense;
     }
+
     public int getAttack() {
         return attack;
     }

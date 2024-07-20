@@ -4,6 +4,8 @@ import utils.Position;
 import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
+import utils.callbacks.MessageCallback;
+
 import java.util.List;
 
 public class Hunter extends Player {
@@ -12,10 +14,10 @@ public class Hunter extends Player {
     private int arrowsCount;
     private int ticksCount;
 
-    public Hunter(String name ,  int attackPoints, int defensePoints, int hitPoints, int x, int y ,
-                  int range)
+    public Hunter(String name , int attackPoints, int defensePoints, int hitPoints, int x, int y ,
+                  int range, MessageCallback callBack)
     {
-        super(name,hitPoints, attackPoints,defensePoints,new Position(x,y));
+        super(name,hitPoints, attackPoints,defensePoints,new Position(x,y),callBack);
         this.range = range;
         this.arrowsCount = 10;
         this.ticksCount = 0;

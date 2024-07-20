@@ -3,8 +3,9 @@ package model.tiles.units.players;
 import model.tiles.units.Unit;
 import model.tiles.units.enemies.Enemy;
 import utils.Position;
-import java.util.List;
 import utils.callbacks.MessageCallback;
+
+import java.util.List;
 
 public abstract class Player extends Unit {
     public static final char PLAYER_TILE = '@';
@@ -17,8 +18,9 @@ public abstract class Player extends Unit {
     protected int experience;
 
 
-    public Player(String name, int hitPoints, int attack, int defense, Position p) {
+    public Player(String name, int hitPoints, int attack, int defense, Position p, MessageCallback callBack) {
         super(PLAYER_TILE, name, hitPoints, attack, defense, p);
+        this.callBack = callBack;
         this.level = 1;
         this.experience = 0;
     }
@@ -34,7 +36,6 @@ public abstract class Player extends Unit {
 
     public void levelUp(){
         this.experience -= levelRequirement();
-        this.level++;
         int healthGain = healthGain();
         int attackGain = attackGain();
         int defenseGain = defenseGain();
@@ -42,6 +43,7 @@ public abstract class Player extends Unit {
         health.heal();
         attack += attackGain;
         defense += defenseGain;
+        this.level++;
     }
 
     protected int levelRequirement(){

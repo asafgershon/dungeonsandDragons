@@ -1,12 +1,14 @@
 import model.game.Game;
-import model.tiles.units.Unit;
-import model.tiles.units.players.Player;
-import utils.Position;
-import utils.generators.FixedGenerator;
+import utils.callbacks.MessageCallback;
+import view.CLI;
+import view.View;
 
 public class Main {
     public static void main(String[] args) {
-        Game game = new Game("C:\\Users\\gersh\\IdeaProjects\\dragon\\dungeonsandDragons\\levels_dir");
+        View cliView = new CLI();
+        MessageCallback callback = cliView.getCallback();
+
+        Game game = new Game("C:\\Users\\gersh\\IdeaProjects\\dragon\\dungeonsandDragons\\levels_dir", callback);
         game.ActivateGame();
     }
 }

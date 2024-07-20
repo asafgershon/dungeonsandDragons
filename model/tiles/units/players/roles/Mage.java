@@ -5,6 +5,8 @@ import model.tiles.Tile;
 import utils.Health;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
+import utils.callbacks.MessageCallback;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -18,10 +20,10 @@ public class Mage extends Player {
     private int abilityCost;
     private int hitsCount;
 
-    public Mage(String name ,  int attackPoints, int defensePoints, int health, int x, int y ,
-                int manaPool , int spellPower , int abilityCost , int hitsCount , int abilityRange)
+    public Mage(String name , int attackPoints, int defensePoints, int health, int x, int y ,
+                int manaPool , int spellPower , int abilityCost , int hitsCount , int abilityRange, MessageCallback callBack)
     {
-        super(name,health,attackPoints,defensePoints, new Position(x,y));
+        super(name,health,attackPoints,defensePoints, new Position(x,y),callBack);
         this.mana = new Health(manaPool);
         this.spellPower = spellPower;
         this.abilityRange = abilityRange;
@@ -31,10 +33,10 @@ public class Mage extends Player {
 
     public void levelUP()
     {
-        super.levelUp();
         this.mana.setCapacity(mana.getCapacity() + this.getLevel()*25);
         this.mana.increaseCurrentHealth(this.mana.getCapacity()/4);
         this.spellPower = this.spellPower + this.getLevel() * 10;
+        super.levelUp();
     }
 
     public void activateAbility(List<Enemy> enemies)

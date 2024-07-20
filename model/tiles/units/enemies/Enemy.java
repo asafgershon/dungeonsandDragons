@@ -3,12 +3,15 @@ package model.tiles.units.enemies;
 import model.tiles.units.Unit;
 import model.tiles.units.players.Player;
 import utils.Position;
+import utils.callbacks.MessageCallback;
 
 public abstract class Enemy extends Unit {
     protected int experienceValue;
 
-    public Enemy(char tile, String name, int hitPoints, int attack, int defense, int experienceValue, Position p) {
+    public Enemy(char tile, String name, int hitPoints, int attack, int defense, int experienceValue, Position p,
+                 MessageCallback msg) {
         super(tile, name, hitPoints, attack, defense, p);
+        this.callBack = msg;
         this.experienceValue = experienceValue;
     }
 

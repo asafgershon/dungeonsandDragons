@@ -11,13 +11,13 @@ public class Board {
     {
         this.board = new Tile[sizeX][sizeY];
         this.boardCurrentY= 0;
-
     }
 
     public void addTile(Tile t)
     {
         this.board[t.getPosition().getX()][t.getPosition().getY()] = t;
     }
+
     public Tile getTileInPosition(Position p)
     {
         return this.board[p.getX()][p.getY()];
@@ -56,9 +56,5 @@ public class Board {
         }
 
         return boardString;
-    }
-
-    public Tile[][] getBoard() {
-        return board;
     }
 }

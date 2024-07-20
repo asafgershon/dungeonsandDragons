@@ -3,20 +3,18 @@ package model.tiles.units.enemies.Types;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
 import utils.Position;
-import utils.Health;
 import model.tiles.Tile;
 import model.tiles.units.Unit;
-import java.util.LinkedList;
-import java.util.List;
+import utils.callbacks.MessageCallback;
 import java.util.Random;
 
 public class Monster extends Enemy {
 
     private int vision;
 
-    public Monster(int expRaise, String name, int attackPoints, int defensePoints, int health, int x, int y, char symbol, int vision)
+    public Monster(int expRaise, String name, int attackPoints, int defensePoints, int health, int x, int y, char symbol, int vision, MessageCallback callback)
     {
-        super(symbol, name,health,attackPoints,defensePoints,expRaise, new Position(x,y));
+        super(symbol, name,health,attackPoints,defensePoints,expRaise, new Position(x,y),callback);
         this.vision = vision;
     }
 
@@ -58,32 +56,28 @@ public class Monster extends Enemy {
         this.interact(t);
     }
     public String chooseDirection(Player p) {
-
-        List<String> actions = new LinkedList<String>();
-        actions.add("a");
-        actions.add("w");
-        actions.add("d");
-        actions.add("s");
-
-        if (this.getPosition().range(p.getPosition()) < this.vision) {
-            int dx = this.getPosition().getX() - p.getPosition().getX();
-            int dy = this.getPosition().getY() - p.getPosition().getY();
+        Position playerPosition = p.getPosition();
+        int dx = playerPosition.getX() - position.getX();
+        int dy = playerPosition.getY() - position.getY();
+        double distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < vision) {
             if (Math.abs(dx) > Math.abs(dy)) {
-                if (dx > 0)
-                    return actions.get(0);
-                else
-                    return actions.get(2);
+                if (dx > 0) {
+                    return "d"; // Move right
+                } else {
+                    return "a"; // Move left
+                }
             } else {
-                if (dy > 0)
-                    return actions.get(1);
-                else
-                    return actions.get(3);
+                if (dy > 0) {
+                    return "s"; // Move down
+                } else {
+                    return "w"; // Move up
+                }
             }
         }
         else {
-            Random random = new Random();
-            int randomIndex = random.nextInt(actions.size());
-            return (actions.get(randomIndex));
+            String[] directions = {"a", "d", "w", "s", "stay"};
+            return directions[new Random().nextInt(directions.length)];
         }
     }
 

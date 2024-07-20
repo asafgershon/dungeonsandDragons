@@ -4,6 +4,7 @@ import model.tiles.units.enemies.Enemy;
 import model.tiles.units.Unit;
 import model.tiles.units.players.Player;
 import utils.Position;
+import utils.callbacks.MessageCallback;
 
 public class Trap extends Enemy {
 
@@ -13,8 +14,8 @@ public class Trap extends Enemy {
     private boolean visible;
     private char defSymbol;
 
-    public Trap(int expRaise, String name, int attackPoints, int defensePoints, int health, int x, int y, char symbol, int visibilityTime, int invisibilityTime) {
-        super(symbol, name,health, attackPoints, defensePoints,expRaise,new Position(x,y));
+    public Trap(int expRaise, String name, int attackPoints, int defensePoints, int health, int x, int y, char symbol, int visibilityTime, int invisibilityTime, MessageCallback callBack) {
+        super(symbol, name,health, attackPoints, defensePoints,expRaise,new Position(x,y),callBack);
         this.visibilityTime = visibilityTime;
         this.invisibilityTime = invisibilityTime;
         this.ticksCount = 0;
@@ -45,25 +46,37 @@ public class Trap extends Enemy {
 
     public void gameTick(Player p)
     {
-        this.visible = ticksCount < visibilityTime;
-
-        if (visible)
-            this.setSymbol(defSymbol);
-        else
-            this.setSymbol('.');
-
-        if(ticksCount == visibilityTime+invisibilityTime)
+        // Update visibility based on ticksCount
+        if (ticksCount < visibilityTime) {
+            this.visible = true;
+        } else if (ticksCount < visibilityTime + invisibilityTime) {
+            this.visible = false;
+        } else {
+            // Reset the ticksCount and start the visibility cycle over
             ticksCount = 0;
-        else
-            ticksCount ++;
-        if(this.getPosition().range(p.getPosition()) < 2)
+        }
+
+        // Update the trap's symbol based on visibility
+        if (this.visible) {
+            this.setSymbol(defSymbol);
+        } else {
+            this.setSymbol('.');
+        }
+
+        // Increment the ticks count
+        ticksCount++;
+
+        // Check distance to player and trigger battle if within range
+        if (this.getPosition().range(p.getPosition()) < 2) {
             this.battle(p);
+        }
     }
     public String toString()
     {
-        if (visible)
-            return super.toString();
-        return ".";
+        if (this.visible) {
+            return super.toString(); // This should return the symbol for visible traps
+        }
+        return "."; // Return symbol for invisible traps
     }
     @Override
     public String description()

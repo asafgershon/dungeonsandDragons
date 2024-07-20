@@ -7,6 +7,7 @@ import model.tiles.Tile;
 import utils.Health;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
+import utils.callbacks.MessageCallback;
 
 public class Rogue extends Player {
 
@@ -14,18 +15,18 @@ public class Rogue extends Player {
     private Health energy;
     private int abilityCost;
 
-    public Rogue(String name ,  int attackPoints, int defensePoints, int health, int x, int y , int abilityCost)
+    public Rogue(String name ,  int attackPoints, int defensePoints, int health, int x, int y , int abilityCost, MessageCallback callBack)
     {
-        super(name,health, attackPoints, defensePoints, new Position(x, y));
+        super(name,health, attackPoints, defensePoints, new Position(x, y),callBack);
         this.energy = new Health(startEnergy);
         this.abilityCost = abilityCost;
     }
 
     public void levelUP()
     {
-        super.levelUp();
         this.energy.setCurrent(startEnergy);
         this.setAttackPoints(this.getAttack() + this.getLevel() * 3);
+        super.levelUp();
     }
 
     public void activateAbility(List<Enemy> enemies)

@@ -32,8 +32,6 @@ public abstract class Player extends Unit {
         }
     }
 
-    protected abstract void levelUP();
-
     public void levelUp(){
         this.experience -= levelRequirement();
         int healthGain = healthGain();
@@ -58,8 +56,6 @@ public abstract class Player extends Unit {
         return ATTACK_GAIN * level;
     }
 
-    public abstract void activateAbility(List<Enemy> enemies);
-
     public void attackWithAbility(Enemy e,  int attackPoints)
     {
         if(attackPoints > e.getDefense())
@@ -77,10 +73,6 @@ public abstract class Player extends Unit {
     }
 
     public abstract void info();
-
-    public String getName() {
-        return name;
-    }
 
     public String description() {
         return " name: " + this.name + "  AttackPoints: " +
@@ -146,4 +138,12 @@ public abstract class Player extends Unit {
     public int getLevel(){
         return level;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    protected abstract void levelUP();
+
+    public abstract void activateAbility(List<Enemy> enemies);
 }

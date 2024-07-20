@@ -1,5 +1,6 @@
 package model.game;
 
+import control.initializers.LevelInitializer;
 import control.initializers.TileFactory;
 import model.tiles.Empty;
 import model.tiles.Tile;
@@ -24,25 +25,27 @@ public class Level {
     private List<Trap> traps;
     private Player player;
     private MessageCallback msg;
-    private TileFactory factory;
+    private LevelInitializer buildLevel;
 
     public Level(MessageCallback msg) {
         this.monsters = new LinkedList<>();
         this.traps = new LinkedList<>();
         this.msg = msg;
-        this.factory = new TileFactory(msg);
+        this.buildLevel = new LevelInitializer(msg);
     }
 
-    public void setBoard(int x, int y)
+    public void choosePlayer(Player playerChosen)
     {
-        this.board = new Board(x,y);
+        this.player = playerChosen;
     }
 
-    public void choosePlayer(int playerChosen)
-    {
-        this.player = factory.getPlayer(playerChosen);
-        msg.send("You choose - " + player.getName());
+    public void loadLevel(String filePath){
+        buildLevel.initLevel(filePath, this.player);
+        this.board = buildLevel.getBoard();
+        this.monsters = buildLevel.getMonsters();
+        this.traps = buildLevel.getTraps();
     }
+
     public boolean hasLevel(String filePath) {
         File file = new File(filePath);
         try (Scanner scanner = new Scanner(file)) {
@@ -52,62 +55,7 @@ public class Level {
             return false;
         }
     }
-    public void loadLevel(String filePath) {
-        int sizex = 0;
-        int sizey = 0;
-        boolean stopx = false;
-        String line = null;
-        File file = new File(filePath);
 
-        try(Scanner scannerPre = new Scanner(file)) {
-            while (scannerPre.hasNextLine()) {
-                line = scannerPre.nextLine();
-                sizey++;
-
-                for (int i = 0; i < line.length() && !stopx ; i++) {
-                    sizex++;
-                }
-                stopx = true;
-            }
-        }
-        catch (FileNotFoundException e) {
-            throw new RuntimeException("File doesnt exist");
-        }
-
-        setBoard(sizex,sizey);
-
-        try (Scanner scanner = new Scanner(file)) {
-            String Line = null;
-            while (scanner.hasNextLine()) {
-                Line = scanner.nextLine();
-                for (int i = 0; i < Line.length(); i++) {
-                    char currentTileSymbol = Line.charAt(i);
-                    if (currentTileSymbol == '@') {
-                        this.player.setPosition(new Position(i, this.board.getBoardCurrentY()));
-                        this.board.addTile(this.player);
-                    }
-
-                    else {
-                        Tile temp = factory.getTile(currentTileSymbol,i,this.board.getBoardCurrentY());
-                        this.board.addTile(temp);
-                        addEnemy(temp,currentTileSymbol);
-                    }
-                }
-                this.board.increaseHeight();
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("File doesnt exist");
-        }
-    }
-
-    public void addEnemy(Tile t, char c)
-    {
-        if (c != '#' && c != '.')
-            if (c == 'B' | c == 'Q' | c =='D')
-                traps.add((Trap) t);
-            else
-                monsters.add((Monster)t);
-    }
     public void gameTick(String action)
     {
         Position prev = player.getPosition();

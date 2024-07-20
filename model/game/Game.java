@@ -21,7 +21,7 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         msg.send("Choose your player from the list");
         int playerChosen = scanner.nextInt();
-        currentLevel.choosePlayer(playerChosen);
+        currentLevel.choosePlayer(tileFactory.getPlayer(playerChosen));
     }
 
     public void ActivateGame() {

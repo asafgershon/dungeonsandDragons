@@ -2,13 +2,16 @@ import model.game.Game;
 import utils.callbacks.MessageCallback;
 import view.CLI;
 import view.View;
+import java.nio.file.Paths;
+
 
 public class Main {
     public static void main(String[] args) {
         View cliView = new CLI();
         MessageCallback callback = cliView.getCallback();
 
-        Game game = new Game("C:\\Users\\gersh\\IdeaProjects\\dragon\\dungeonsandDragons\\levels_dir", callback);
+        String levelsDirPath = Paths.get("levels_dir").toAbsolutePath().toString();
+        Game game = new Game(levelsDirPath, callback);
         game.ActivateGame();
     }
 }

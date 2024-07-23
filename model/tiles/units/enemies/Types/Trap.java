@@ -26,6 +26,9 @@ public class Trap extends Enemy {
     {
     }
 
+    public void addExperience(int experience) { }
+
+
     public void visit(Enemy e)
     {
 
@@ -35,13 +38,15 @@ public class Trap extends Enemy {
     {
         u.visit(this);
     }
+
     public void onDeath(Unit killer,boolean fromAbility)
     {
-        killer.gainEXP(this.getExpRaise());
+        killer.addExperience(this.getExpRaise());
         if (!fromAbility)
             killer.swapPosition(this);
         callBack.send("Trap " + this.getName() + " died.");
     }
+
     public void gainEXP(int exp) { }
 
     public void gameTick(Player p)

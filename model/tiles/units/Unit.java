@@ -40,6 +40,8 @@ public abstract class Unit extends Tile {
         return health.getCurrent() > 0;
     }
 
+    public abstract void addExperience(int experienceValue);
+
     public void battle(Unit enemy) {
         this.callBack.send(this.getName() + " just started a fight with " + enemy.getName());
         this.info();
@@ -83,8 +85,6 @@ public abstract class Unit extends Tile {
         return name;
     }
 
-    public abstract void gainEXP(int exp);
-
     public abstract void visit(Player p);
 
     public abstract void visit(Enemy e);
@@ -103,6 +103,7 @@ public abstract class Unit extends Tile {
     public int getDefense(){
         return defense;
     }
+
     public void setDefense(int defense){
         this.defense = defense;
     }

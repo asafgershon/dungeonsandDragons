@@ -15,13 +15,25 @@ public class Game {
         this.msg = msg;
         this.tileFactory = new TileFactory(msg);
         this.currentLevel = new Level(msg);
-        tileFactory.printThePlayers();
         this.directoryPath = directoryPath;
-
+        msg.send("notice you must put the level_dir folder");
+        msg.send("you put it? enter 0 for continue");
         Scanner scanner = new Scanner(System.in);
-        msg.send("Choose your player from the list");
-        int playerChosen = scanner.nextInt();
-        currentLevel.choosePlayer(tileFactory.getPlayer(playerChosen));
+        int validfolder = scanner.nextInt();
+        if (validfolder == 0) {
+            tileFactory.printThePlayers();
+            msg.send("Choose your player from the list");
+            int playerChosen = scanner.nextInt();
+            while(playerChosen < 1 || playerChosen > 7) {
+                msg.send("Invalid player chosen");
+                playerChosen = scanner.nextInt();
+            }
+            currentLevel.choosePlayer(tileFactory.getPlayer(playerChosen));
+        }
+        else{
+             msg.send("reload the game");
+        }
+
     }
 
     public void ActivateGame() {

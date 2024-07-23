@@ -26,12 +26,14 @@ public class Level {
     private Player player;
     private MessageCallback msg;
     private LevelInitializer buildLevel;
+    private TileFactory factory;
 
     public Level(MessageCallback msg) {
         this.monsters = new LinkedList<>();
         this.traps = new LinkedList<>();
         this.msg = msg;
         this.buildLevel = new LevelInitializer(msg);
+        this.factory = new TileFactory(msg);
     }
 
     public void choosePlayer(Player playerChosen)
@@ -39,7 +41,7 @@ public class Level {
         this.player = playerChosen;
     }
 
-    public void loadLevel(String filePath){
+    public void loadLevel1(String filePath){
         buildLevel.initLevel(filePath, this.player);
         this.board = buildLevel.getBoard();
         this.monsters = buildLevel.getMonsters();
@@ -111,6 +113,68 @@ public class Level {
         return monsters.size() == 0;
     }
 
+    public void loadLevel(String filePath) {
+        int sizex = 0;
+        int sizey = 0;
+        boolean stopx = false;
+        String line = null;
+        File file = new File(filePath);
+
+        try(Scanner scannerPre = new Scanner(file)) {
+            while (scannerPre.hasNextLine()) {
+                line = scannerPre.nextLine();
+                sizey++;
+
+                for (int i = 0; i < line.length() && !stopx ; i++) {
+                    sizex++;
+                }
+                stopx = true;
+            }
+        }
+        catch (FileNotFoundException e) {
+            throw new RuntimeException("File doesnt exist");
+        }
+
+        setBoard(sizex,sizey);
+
+        try (Scanner scanner = new Scanner(file)) {
+            String Line = null;
+            while (scanner.hasNextLine()) {
+                Line = scanner.nextLine();
+                for (int i = 0; i < Line.length(); i++) {
+                    char currentTileSymbol = Line.charAt(i);
+                    if (currentTileSymbol == '@') {
+                        this.player.setPosition(new Position(i, this.board.getBoardCurrentY()));
+                        this.board.addTile(this.player);
+                    }
+
+                    else {
+                        Tile temp = factory.getTile(currentTileSymbol,i,this.board.getBoardCurrentY());
+                        this.board.addTile(temp);
+                        addEnemy(temp,currentTileSymbol);
+                    }
+                }
+                this.board.increaseHeight();
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("File doesnt exist");
+        }
+    }
+
+    public void setBoard(int x, int y)
+    {
+        this.board = new Board(x,y);
+    }
+
+    public void addEnemy(Tile t, char c)
+    {
+        if (c != '#' && c != '.')
+            if (c == 'B' | c == 'Q' | c =='D')
+                traps.add((Trap) t);
+            else
+                monsters.add((Monster)t);
+    }
+
     public void betweenGameTicks()
     {
         List<Monster> aliveMonsters = new LinkedList<Monster>();
@@ -140,8 +204,8 @@ public class Level {
 
     public void levelInfo()
     {
-        this.player.info();
         msg.send(this.board.toString());
+        this.player.info();
     }
 
 }

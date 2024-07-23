@@ -30,6 +30,7 @@ public abstract class Player extends Unit {
         while (experience >= levelRequirement()) {
             levelUP();
         }
+        callBack.send(this.name + " gain " + experienceValue + " exp");
     }
 
     public void levelUp(){
@@ -75,9 +76,9 @@ public abstract class Player extends Unit {
     public abstract void info();
 
     public String description() {
-        return " name: " + this.name + "  AttackPoints: " +
-                this.attack + "  DefensePoints: " + this.defense + "  " +
-                "Health Points : (" + this.health.toString() + ")";
+        return "name: " + this.name + " level: " + this.level + " exp: " + this.experience + "/" + this.levelRequirement() +
+                "  AttackPoints: " + this.attack + "  DefensePoints: " + this.defense + "  " +
+                "Health: " + this.health.toString() + ")";
     }
 
     protected int defenseGain(){
@@ -95,11 +96,6 @@ public abstract class Player extends Unit {
 
     public void visit(Enemy e){
         battle(e);
-        if(!e.alive()){
-            addExperience(e.experienceValue());
-            if(!e.alive())
-                e.onDeath(this,false);
-        }
     }
 
     public void onDeath(Unit killer,boolean fromAbility) {
@@ -108,31 +104,8 @@ public abstract class Player extends Unit {
         callBack.send("Player " + this.getName() + " died.");
     }
 
-    public void gainEXP(int exp)
-    {
-        callBack.send("Player " + this.getName() + " just Gained " + exp + " EXP");
-        while(exp > 0)
-        {
-            if(this.getExp() + exp >= this.level * 50)
-            {
-                exp = exp - (this.level * 50 - this.getExp());
-                levelUp();
-            }
-            else
-            {
-                this.setExp(this.getExp()+exp);
-                exp = 0;
-            }
-        }
-        this.info();
-    }
-
     public int getExp() {
         return experience;
-    }
-
-    public void setExp(int exp) {
-        this.experience = exp;
     }
     
     public int getLevel(){

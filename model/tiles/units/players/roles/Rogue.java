@@ -60,7 +60,7 @@ public class Rogue extends Player {
     }
     public void info()
     {
-        this.callBack.send("Rogue " +this.getName() + "\n Stats : " + this.description() + "\n");
+        this.callBack.send("Rogue " +this.getName() + "\n" + this.description() + "\n");
     }
 
     public Health getEnergy() {

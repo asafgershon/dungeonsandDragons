@@ -66,7 +66,7 @@ public class Warrior extends Player {
     }
     public void info()
     {
-        this.callBack.send("Warrior " +this.getName() + "\n Stats : " + this.description() + "\n");
+        this.callBack.send("Warrior " +this.getName() + "\n" + this.description() + "\n");
     }
 
     public int getRemainingCooldown() {

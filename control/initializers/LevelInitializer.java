@@ -93,7 +93,7 @@ public class LevelInitializer {
             if (c == 'B' | c == 'Q' | c =='D')
                 traps.add((Trap) t);
             else
-                monsters.add((Monster)t);
+                monsters.add((Monster) t);
     }
 
     public Board getBoard() {

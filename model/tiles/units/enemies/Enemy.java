@@ -33,10 +33,6 @@ public abstract class Enemy extends Unit {
 
     public void visit(Player p){
         battle(p);
-        if (!p.alive()){
-            if(!p.alive())
-                p.onDeath(this,false);
-        }
     }
 
     public int getExpRaise()

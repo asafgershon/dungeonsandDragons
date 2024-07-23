@@ -41,16 +41,15 @@ public class Monster extends Enemy {
 
     public void onDeath(Unit killer,boolean fromAbility)
     {
-        killer.gainEXP(this.getExpRaise());
+        killer.addExperience(this.getExpRaise());
         if (!fromAbility)
             killer.swapPosition(this);
         callBack.send("Monster " + this.getName() + " died.");
     }
 
-    public void gainEXP(int exp)
-    {
+    @Override
+    public void addExperience(int experience) { }
 
-    }
     public void move(Tile t)
     {
         this.interact(t);

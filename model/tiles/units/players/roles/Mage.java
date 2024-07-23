@@ -77,7 +77,7 @@ public class Mage extends Player {
     }
     public void info()
     {
-        this.callBack.send("Mage " + this.getName() + "\n Stats : " + this.description() + "\n");
+        this.callBack.send("Mage " + this.getName() + "\n" + this.description() + "\n");
     }
 
     public Health getMana() {
